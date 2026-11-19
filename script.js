@@ -22,11 +22,19 @@ toggle.addEventListener("click", () => {
   toggle.setAttribute("aria-expanded", open);
 });
 navLinks.querySelectorAll("a").forEach((a) =>
-  a.addEventListener("click", () => {
-    navLinks.classList.remove("open");
-    toggle.setAttribute("aria-expanded", false);
-  })
+  a.addEventListener("click", closeMenu)
 );
+function closeMenu() {
+  navLinks.classList.remove("open");
+  toggle.setAttribute("aria-expanded", false);
+}
+// Tap outside the menu, or press Esc, to close it
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav")) closeMenu();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeMenu();
+});
 
 /* ---------- 2. Highlight current section in the menu ---------- */
 const sections = document.querySelectorAll("main section[id]");

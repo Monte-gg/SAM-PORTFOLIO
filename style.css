@@ -292,3 +292,73 @@ dialog::backdrop { background: rgba(0,0,0,.7); }
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* =========================================================
+   MOBILE (Android + iOS) – touch-friendly layout
+   ========================================================= */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+img { max-width: 100%; }
+a, button { touch-action: manipulation; }
+
+/* Notch / home-bar safe areas (iPhone, modern Android) */
+.nav { padding-top: max(12px, env(safe-area-inset-top)); padding-left: max(5vw, env(safe-area-inset-left)); padding-right: max(5vw, env(safe-area-inset-right)); }
+.wa-float { right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); }
+.footer { padding-bottom: max(32px, calc(env(safe-area-inset-bottom) + 72px)); }
+
+/* No sticky "hover" lift on touch screens */
+@media (hover: none) {
+  .card:hover { transform: none; box-shadow: none; border-color: var(--card-border); }
+  .btn:hover, .socials a:hover, .wa-float:hover { transform: none; }
+}
+
+@media (max-width: 859px) {
+  /* Big, easy tap targets (44px+) */
+  .nav-toggle, .theme-toggle { width: 44px; height: 44px; }
+  .nav-links { max-height: calc(100dvh - 64px); overflow-y: auto; box-shadow: 0 20px 30px rgba(0,0,0,.35); }
+  .nav-links a { padding: 15px 4px; font-size: 1rem; }
+  .btn { padding: 14px 24px; }
+  .filter { padding: 11px 22px; }
+  .socials a { width: 48px; height: 48px; }
+
+  /* Hero: photo first, then text; no fixed full-screen height */
+  .hero { min-height: auto; }
+  .hero-right { order: -1; padding: 28px 5vw 40px; }
+  .hero-left { padding: 32px 6vw 44px; text-align: center; align-items: center; }
+  .hero-intro { margin-inline: auto; }
+  .hero-actions { justify-content: center; }
+  .socials { justify-content: center; }
+  .photo-blob { width: min(66vw, 300px); }
+  .float-badge { font-size: .72rem; padding: 8px 12px; }
+  .badge-1 { bottom: 14px; left: 4vw; }
+  .badge-2 { top: 14px; right: 4vw; }
+
+  .stats { margin-top: -22px; }
+  .section { padding-top: 48px; }
+  .card { padding: 22px; }
+  .card-about p { font-size: 1rem; }
+  .contact-list a { display: inline-block; padding: 2px 0; }
+
+  /* iOS zooms into inputs smaller than 16px – prevent that */
+  .form input, .form textarea { font-size: 16px; }
+  .form button { justify-self: stretch; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions .btn { flex: 1 1 100%; text-align: center; }
+  .stat { padding: 14px 16px; }
+  .stat strong { font-size: 1.4rem; }
+  .section-head h2 { font-size: 1.4rem; }
+  .chips li { font-size: .8rem; padding: 6px 11px; }
+  .footer { flex-direction: column; text-align: center; align-items: center; }
+
+  /* Popup becomes a bottom sheet on phones */
+  dialog { width: 100%; max-width: 100%; margin: auto 0 0; max-height: 88dvh; border-radius: 22px 22px 0 0; padding: 24px 20px calc(24px + env(safe-area-inset-bottom)); }
+  .modal-close { width: 44px; height: 44px; top: 10px; right: 10px; }
+}
+
+@media (max-width: 360px) {
+  .name { font-size: 2rem; }
+  .brand { font-size: .85rem; }
+  .brand-logo { width: 28px; height: 28px; }
+}
