@@ -362,3 +362,63 @@ a, button { touch-action: manipulation; }
   .brand { font-size: .85rem; }
   .brand-logo { width: 28px; height: 28px; }
 }
+
+/* =========================================================
+   MOBILE APP-STYLE BOTTOM NAVIGATION (max-width: 768px only)
+   ========================================================= */
+.bottom-nav { display: none; }
+
+@media (max-width: 768px) {
+  /* Minimal top header: logo/name + theme toggle only */
+  .nav-toggle, .nav-links, .nav-links.open { display: none !important; }
+  html { scroll-padding-top: 70px; }
+
+  /* Fixed bottom bar */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;
+    display: flex; justify-content: space-around; align-items: stretch;
+    background: var(--nav-bg); border-top: 1px solid var(--line);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 6px max(6px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(6px, env(safe-area-inset-left));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, .18);
+  }
+  .bn-item {
+    flex: 1 1 0; min-width: 44px; min-height: 52px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    margin: 0 2px 6px; border-radius: 14px;
+    color: var(--muted); font-size: .7rem; font-weight: 600; letter-spacing: .02em;
+    transition: color .2s, background .2s;
+  }
+  .bn-item svg { width: 22px; height: 22px; }
+  .bn-item:hover { text-decoration: none; }
+  .bn-item.active { color: var(--accent); background: var(--accent-soft); }
+
+  /* Keep content clear of the bar */
+  main { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .wa-float { bottom: calc(80px + env(safe-area-inset-bottom)); width: 50px; height: 50px; }
+  .wa-float svg { width: 26px; height: 26px; }
+
+  /* App-like content flow */
+  .hero { min-height: auto; }
+  .section { padding-left: 14px; padding-right: 14px; }
+  .bento, .about-grid, .exp-grid, .edu-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+  .card-wide { grid-column: auto; }
+  .project-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .card { border-radius: 20px; }
+
+  /* Project popup as slide-up bottom sheet */
+  dialog {
+    width: 100%; max-width: 100%; margin: auto 0 0; max-height: 88dvh;
+    border-radius: 22px 22px 0 0; border-bottom: none;
+    padding: 28px 20px calc(24px + env(safe-area-inset-bottom));
+  }
+  dialog[open] { animation: sheet-up .28s ease-out; }
+  dialog::before {
+    content: ""; display: block; width: 44px; height: 5px; border-radius: 99px;
+    background: var(--line); margin: -14px auto 14px;
+  }
+  .modal-close { width: 44px; height: 44px; top: 10px; right: 10px; }
+}
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }

@@ -124,3 +124,30 @@ form.addEventListener("submit", (e) => {
   note.textContent = "Opening your email app…";
   form.reset();
 });
+
+/* ---------- 7. Mobile bottom navigation (active tab) ---------- */
+const bottomNav = document.getElementById("bottom-nav");
+if (bottomNav) {
+  const tabs = [...bottomNav.querySelectorAll(".bn-item")];
+  const tabSections = tabs.map((t) => document.getElementById(t.dataset.section));
+  const setActive = (id) =>
+    tabs.forEach((t) => {
+      const on = t.dataset.section === id;
+      t.classList.toggle("active", on);
+      if (on) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current");
+    });
+  let ticking = false;
+  const updateTabs = () => {
+    ticking = false;
+    const line = window.scrollY + window.innerHeight * 0.4;
+    let current = tabs[0].dataset.section;
+    tabSections.forEach((s, i) => { if (s && s.offsetTop <= line) current = tabs[i].dataset.section; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = "contact";
+    setActive(current);
+  };
+  window.addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateTabs); }
+  }, { passive: true });
+  tabs.forEach((t) => t.addEventListener("click", () => setActive(t.dataset.section)));
+  updateTabs();
+}
